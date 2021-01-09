@@ -22,8 +22,15 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('UtilApp'),
+      appBar: AppBar(
+        title: Text('UtilApp homepage'),
+      ),
+      body: Column(
+        children: [
+          Center(
+            child: Image.asset('assets/utilapp_logo.png'),
+          ),
+        ],
       ),
     );
   }
