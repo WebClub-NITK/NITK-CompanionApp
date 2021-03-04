@@ -1,1 +1,0 @@
-This the application part of the design
