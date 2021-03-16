@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from urllib.parse import quote_plus
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,12 +77,22 @@ WSGI_APPLICATION = 'NITKCompanionApp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+DB_USER=str(os.getenv("DB_USER"))
+DB_PASS=str(os.getenv("DB_PASSWORD"))
+DB_NAME=str(os.getenv("DB_NAME"))
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+"default": {
+    "ENGINE": "djongo",
+    "CLIENT": {
+        "host": f"mongodb+srv://{DB_USER}:{quote_plus(DB_PASS)}@cluster0.eioqm.mongodb.net/{DB_NAME}?retryWrites=true&w=majority",
+        # "host": "mongodb+srv://companionAppUser:" + quote_plus('GgKXgXu6gQfyV4cU') + "@cluster0.eioqm.mongodb.net/companionApp?retryWrites=true&w=majority",
+        "username": DB_USER,
+        "password": DB_PASS,
+        "name": DB_NAME,
+        "authMechanism": "SCRAM-SHA-1",
+    },
+}}
 
 
 # Password validation
