@@ -30,7 +30,10 @@ class FirebaseAuthFacade implements IAuthFacade {
               logic with API from backend or other 3rd party OAuth service
       
       ****************************************************************************************/
-      return right(unit);
+      return left(const AuthFailure.invalidEmailAndPasswordCombination());
+      /***************************************************************************************
+      if you want to test the app in dev environment change the above code line to 'return right(unit);'
+      ****************************************************************************************/
     } on PlatformException catch (e) {
       if (e.code == 'ERROR_WRONG_PASSWORD' ||
           e.code == 'ERROR_USER_NOT_FOUND') {
@@ -51,14 +54,13 @@ class FirebaseAuthFacade implements IAuthFacade {
 
       final googleAuthentication = await googleUser.authentication;
 
-      final authCredential = GoogleAuthProvider.getCredential(
+      final authCredential = GoogleAuthProvider.credential(
         idToken: googleAuthentication.idToken,
         accessToken: googleAuthentication.accessToken,
       );
 
-      return _firebaseAuth
-          .signInWithCredential(authCredential)
-          .then((r) => right(unit));
+      await _firebaseAuth.signInWithCredential(authCredential);
+      return right(unit);
     } on PlatformException catch (_) {
       return left(const AuthFailure.serverError());
     }
