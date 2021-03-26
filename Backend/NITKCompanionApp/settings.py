@@ -23,29 +23,34 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'j-pl&rkv*w#yywkgw&oex_#_fsg273s)z1ruo@46nh&psibf3('
+SECRET_KEY=os.getenv("DJANGO_SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'djongo.dynamic_formsets.apps.DynamicFormsetsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rest_framework',
+    'corsheaders',
+    'events',
+    'mess_menu'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -77,16 +82,15 @@ WSGI_APPLICATION = 'NITKCompanionApp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DB_USER=str(os.getenv("DB_USER"))
-DB_PASS=str(os.getenv("DB_PASSWORD"))
-DB_NAME=str(os.getenv("DB_NAME"))
+DB_USER=os.getenv("DB_USER")
+DB_PASS=os.getenv("DB_PASSWORD")
+DB_NAME=os.getenv("DB_NAME")
 
 DATABASES = {
 "default": {
     "ENGINE": "djongo",
     "CLIENT": {
         "host": f"mongodb+srv://{DB_USER}:{quote_plus(DB_PASS)}@cluster0.eioqm.mongodb.net/{DB_NAME}?retryWrites=true&w=majority",
-        # "host": "mongodb+srv://companionAppUser:" + quote_plus('GgKXgXu6gQfyV4cU') + "@cluster0.eioqm.mongodb.net/companionApp?retryWrites=true&w=majority",
         "username": DB_USER,
         "password": DB_PASS,
         "name": DB_NAME,
@@ -132,3 +136,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
