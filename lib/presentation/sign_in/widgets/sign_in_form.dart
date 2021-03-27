@@ -5,6 +5,7 @@ import 'package:utilapp/application/auth/sign_in_form/sign_in_form_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:utilapp/presentation/home_page/home_page.dart';
 import 'package:utilapp/res/colors.dart';
+import 'package:utilapp/presentation/maps/college_map_page.dart';
 
 class SignInForm extends StatelessWidget {
   @override
@@ -37,6 +38,13 @@ class SignInForm extends StatelessWidget {
           autovalidate: state.showErrorMessages,
           child: Column(
             children: [
+              FlatButton(
+                child: Text('GO TO MAPS'),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MapsPage()));
+                },
+              ),
               Expanded(
                 flex: 45,
                 child: Padding(
