@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:utilapp/presentation/maps/location.dart';
+import 'package:utilapp/presentation/maps/markers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -16,47 +18,129 @@ class _MapsPageState extends State<MapsPage> {
   Completer<GoogleMapController> _controller = Completer();
   Marker _marker;
   Location location = new Location();
-  void initState() {
-    super.initState();
-    BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'assets/destination.png')
-        .then((onValue) {
-      bitmap = onValue;
-      print('done');
-      _marker = Marker(
-        onTap: () {
-          _scaffoldKey.currentState
-              .showBottomSheet<void>((BuildContext context) {
-            return Container(
-              height: 200,
-              color: Colors.amber,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const Text('BottomSheet'),
-                    FlatButton(
-                      child: const Text('Close BottomSheet'),
-                      onPressed: () => Navigator.pop(context),
-                    )
-                  ],
+  void initializeMarkers(List<NITKLocation> localtionsList) {
+    for (int i = 0; i < localtionsList.length; i++) {
+      BitmapDescriptor.fromAssetImage(
+              ImageConfiguration(size: Size(24, 24)), localtionsList[i].image)
+          .then((onValue) {
+        bitmap = onValue;
+        _marker = Marker(
+          onTap: () {
+            _scaffoldKey.currentState
+                .showBottomSheet<void>((BuildContext context) {
+              return Container(
+                height: 200,
+                color: Colors.blueAccent,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(localtionsList[i].name),
+                      FlatButton(
+                        child: const Text('Close BottomSheet'),
+                        onPressed: () => Navigator.pop(context),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            );
-          });
-        },
-        markerId: MarkerId(_center.toString()),
-        position: _center,
-        infoWindow: InfoWindow(
-          title: 'BYE',
-        ),
-        icon: bitmap,
-      );
-      setState(() {
+              );
+            });
+          },
+          markerId: MarkerId(localtionsList[i].locationLatLng.toString()),
+          position: localtionsList[i].locationLatLng,
+          infoWindow: InfoWindow(
+            title: localtionsList[i].name,
+          ),
+          icon: bitmap,
+        );
         _markers.add(_marker);
       });
-    });
+    }
+    setState(() {});
+  }
+
+  void initState() {
+    super.initState();
+    initializeMarkers(NITK_LOCATIONS_LIST);
+    // BitmapDescriptor.fromAssetImage(
+    //     ImageConfiguration(size: Size(48, 48)), 'assets/destination.png')
+    //     .then((onValue) {
+    //   bitmap = onValue;
+    //   print('done');
+    //   _marker = Marker(
+    //     onTap: (){
+    //       _scaffoldKey.currentState.showBottomSheet<void>(
+    //               (BuildContext context) {
+    //             return Container(
+    //               height: 200,
+    //               color: Colors.amber,
+    //               child: Center(
+    //                 child: Column(
+    //                   mainAxisAlignment: MainAxisAlignment.center,
+    //                   mainAxisSize: MainAxisSize.min,
+    //                   children: <Widget>[
+    //                     const Text('BottomSheet'),
+    //                     FlatButton(
+    //                       child: const Text('Close BottomSheet'),
+    //                       onPressed: () => Navigator.pop(context),
+    //                     )
+    //                   ],
+    //                 ),
+    //               ),
+    //             );});
+    //     },
+    //     markerId: MarkerId(_center.toString()),
+    //     position: _center,
+    //     infoWindow: InfoWindow(
+    //       title: 'BYE',
+    //     ),
+    //     icon:
+    //     bitmap,
+    //   );
+    //
+    //   setState(() {
+    //     _markers.add(_marker);
+    //   });
+    // });
+    // BitmapDescriptor.fromAssetImage(
+    //     ImageConfiguration(size: Size(48, 48)), 'assets/building.png')
+    //     .then((onValue) {
+    //   bitmap2 = onValue;
+    //   _marker2 = Marker(
+    //     onTap: (){
+    //       _scaffoldKey.currentState.showBottomSheet<void>(
+    //               (BuildContext context) {
+    //             return Container(
+    //               height: 200,
+    //               color: Colors.amber,
+    //               child: Center(
+    //                 child: Column(
+    //                   mainAxisAlignment: MainAxisAlignment.center,
+    //                   mainAxisSize: MainAxisSize.min,
+    //                   children: <Widget>[
+    //                     const Text('ECE Department'),
+    //                     FlatButton(
+    //                       child: const Text('Close BottomSheet'),
+    //                       onPressed: () => Navigator.pop(context),
+    //                     )
+    //                   ],
+    //                 ),
+    //               ),
+    //             );});
+    //     },
+    //     markerId: MarkerId(_ECELatLng.toString()),
+    //     position: _ECELatLng,
+    //     infoWindow: InfoWindow(
+    //       title: 'ECE Dept',
+    //     ),
+    //     icon:
+    //     bitmap,
+    //   );
+    //   setState(() {
+    //     _markers.add(_marker2);
+    //   });
+    // });
     checkPermission();
   }
 
@@ -70,7 +154,7 @@ class _MapsPageState extends State<MapsPage> {
   GoogleMapController mapController;
 
   LatLng _center = const LatLng(13.0110, 74.7943);
-
+  LatLng _ECELatLng = const LatLng(13.011159428377379, 74.79217109978454);
   _handleTap(LatLng point) {
     setState(() {
       _markers.add(Marker(
@@ -119,7 +203,7 @@ class _MapsPageState extends State<MapsPage> {
           title: Text('Maps Sample App'),
         ),
         body: GoogleMap(
-            onTap: _handleTap,
+            //onTap: _handleTap,
             myLocationEnabled: true,
             compassEnabled: true,
             markers: _markers,
