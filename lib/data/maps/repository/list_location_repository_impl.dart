@@ -23,13 +23,14 @@ class ListCollegeLocationsRepositoryImpl
       if (await networkInfo.isConnected) {
         final listOfCollegeLocationsModel =
             await remoteDataSource.getListOfCollegeLocations();
-
+        print(listOfCollegeLocationsModel);
         return right(listOfCollegeLocationModelFromJson(
             listOfCollegeLocationsModel.data));
       } else {
         return left(AppFailure.InternetConnectionError);
       }
     } catch (e) {
+      print(e);
       return left(AppFailure.ServerError);
     }
   }

@@ -13,8 +13,7 @@ class ListCollegeLocationsRemoteDataSourceImpl
 
   @override
   Future<dynamic> getListOfCollegeLocations() async {
-    final response =
-        await networkClient.getRequest(url: 'localhost:8000/locations.json');
+    final response = await networkClient.getRequest(url: '/locations.json');
     return response;
   }
 }
