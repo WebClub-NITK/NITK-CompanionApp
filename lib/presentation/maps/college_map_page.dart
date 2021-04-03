@@ -5,6 +5,7 @@ import 'package:utilapp/presentation/maps/markers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:utilapp/presentation/maps/test.dart';
 
 class MapsPage extends StatefulWidget {
   @override
@@ -123,6 +124,12 @@ class _MapsPageState extends State<MapsPage> {
         key: _scaffoldKey,
         appBar: AppBar(
           title: Text('Maps Sample App'),
+          leading: InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TestPage()));
+              },
+              child: Text('Test')),
         ),
         body: GoogleMap(
             //onTap: _handleTap,
