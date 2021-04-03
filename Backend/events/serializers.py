@@ -5,7 +5,7 @@ from rest_framework import serializers
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ['pk', 'name', 'latitude', 'longitude', 'description']
+        fields = ['pk', 'name', 'latitude', 'longitude', 'description', 'location_type']
 
 
 class EventSerializer(serializers.ModelSerializer):
