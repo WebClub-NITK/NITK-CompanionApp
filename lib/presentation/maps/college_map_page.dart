@@ -6,10 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:utilapp/presentation/maps/test.dart';
+import 'package:utilapp/domain/maps/entity/location.dart';
 
 class MapsPage extends StatefulWidget {
   @override
   _MapsPageState createState() => _MapsPageState();
+  final List<CollegeLocation> locationList;
+
+  MapsPage(this.locationList, {Key key}) : super(key: key);
 }
 
 class _MapsPageState extends State<MapsPage> {
@@ -19,51 +23,57 @@ class _MapsPageState extends State<MapsPage> {
   Completer<GoogleMapController> _controller = Completer();
   Marker _marker;
   Location location = new Location();
-  void initializeMarkers(List<NITKLocation> localtionsList) {
+  void initializeMarkers(List<CollegeLocation> localtionsList) {
     for (int i = 0; i < localtionsList.length; i++) {
-      BitmapDescriptor.fromAssetImage(
-              ImageConfiguration(size: Size(24, 24)), localtionsList[i].image)
-          .then((onValue) {
-        bitmap = onValue;
-        _marker = Marker(
-          onTap: () {
-            _scaffoldKey.currentState
-                .showBottomSheet<void>((BuildContext context) {
-              return Container(
-                height: 200,
-                color: Colors.blueAccent,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(localtionsList[i].name),
-                      FlatButton(
-                        child: const Text('Close BottomSheet'),
-                        onPressed: () => Navigator.pop(context),
-                      )
-                    ],
+      if (localtionsList[i].latLng != null) {
+        print("ADDING MARKER FOR ${localtionsList[i].name}");
+        BitmapDescriptor.fromAssetImage(
+                ImageConfiguration(size: Size(24, 24)), localtionsList[i].image)
+            .then((onValue) {
+          bitmap = onValue;
+          _marker = Marker(
+            onTap: () {
+              _scaffoldKey.currentState
+                  .showBottomSheet<void>((BuildContext context) {
+                return Container(
+                  height: 200,
+                  color: Colors.blueAccent,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(localtionsList[i].name),
+                        FlatButton(
+                          child: const Text('Close BottomSheet'),
+                          onPressed: () => Navigator.pop(context),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              );
-            });
-          },
-          markerId: MarkerId(localtionsList[i].locationLatLng.toString()),
-          position: localtionsList[i].locationLatLng,
-          infoWindow: InfoWindow(
-            title: localtionsList[i].name,
-          ),
-          icon: bitmap,
-        );
-        _markers.add(_marker);
-      });
+                );
+              });
+            },
+            markerId: MarkerId(localtionsList[i].latLng.toString()),
+            position: localtionsList[i].latLng,
+            infoWindow: InfoWindow(
+              title: localtionsList[i].name,
+            ),
+            icon: bitmap,
+          );
+          _markers.add(_marker);
+        });
+      }
     }
-    setState(() {});
+    setState(() {
+      print("ALL MARKERS INITIALIZED");
+    });
   }
 
   void initState() {
     super.initState();
-    initializeMarkers(NITK_LOCATIONS_LIST);
+    print(widget.locationList[1].latitude);
+    initializeMarkers(widget.locationList);
     checkPermission();
   }
 

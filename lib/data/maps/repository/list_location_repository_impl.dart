@@ -6,6 +6,7 @@ import 'package:utilapp/data/maps/datasources/list_locations_remote_datasource.d
 import 'package:utilapp/data/maps/model/location_model.dart';
 import 'package:utilapp/domain/maps/entity/location.dart';
 import 'package:utilapp/domain/maps/repository/get_list_locations_repository.dart';
+import 'dart:convert';
 
 class ListCollegeLocationsRepositoryImpl
     implements ListCollegeLocationsRepository {
@@ -24,8 +25,11 @@ class ListCollegeLocationsRepositoryImpl
         final listOfCollegeLocationsModel =
             await remoteDataSource.getListOfCollegeLocations();
         print(listOfCollegeLocationsModel);
-        return right(listOfCollegeLocationModelFromJson(
-            listOfCollegeLocationsModel.body));
+        if (listOfCollegeLocationsModel != AppFailure)
+          return right(listOfCollegeLocationModelFromJson(
+              json.decode(listOfCollegeLocationsModel.body)["results"]));
+        else
+          return left(listOfCollegeLocationsModel);
       } else {
         return left(AppFailure.InternetConnectionError);
       }

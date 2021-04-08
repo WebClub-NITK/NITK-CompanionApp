@@ -3,14 +3,15 @@ import 'package:utilapp/application/failure/app_failure.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkClient {
-  String domain = '10.0.2.2:8000';
-
+  String domain = '777b5c553f35.ngrok.io';
+  //String domain = '127.0.0.1:8000';
   Dio dio = new Dio();
   dynamic getRequest({String url, dynamic queryParameters}) async {
     print(url);
+    Uri toGet = Uri.http(domain, url);
+    print(toGet);
     try {
-      var response = await http.get(Uri.http(domain, url));
-      print(response.body);
+      var response = await http.get(toGet);
       return response;
     } catch (e) {
       return AppFailure.ServerError;
