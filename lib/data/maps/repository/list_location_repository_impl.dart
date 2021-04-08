@@ -25,7 +25,7 @@ class ListCollegeLocationsRepositoryImpl
             await remoteDataSource.getListOfCollegeLocations();
         print(listOfCollegeLocationsModel);
         return right(listOfCollegeLocationModelFromJson(
-            listOfCollegeLocationsModel.data));
+            listOfCollegeLocationsModel.body));
       } else {
         return left(AppFailure.InternetConnectionError);
       }
