@@ -38,14 +38,63 @@ class _MapsPageState extends State<MapsPage> {
               _scaffoldKey.currentState
                   .showBottomSheet<void>((BuildContext context) {
                 return Container(
-                  height: 200,
-                  color: Colors.blueAccent,
+                  height: MediaQuery.of(context).size.height / 2.5,
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Text(localtionsList[i].name),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              FaIcon(FontAwesomeIcons.locationArrow),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 28.0),
+                                child: Text(localtionsList[i].name),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              FaIcon(FontAwesomeIcons.book),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 28.0),
+                                child: Text(localtionsList[i].description),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              FaIcon(FontAwesomeIcons.mapMarked),
+                              Padding(
+                                  padding: const EdgeInsets.only(left: 28.0),
+                                  child: Text(
+                                    localtionsList[i].latitude +
+                                        " " +
+                                        localtionsList[i].longitude,
+                                  ))
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              FaIcon(FontAwesomeIcons.listAlt),
+                              Padding(
+                                  padding: const EdgeInsets.only(left: 28.0),
+                                  child:
+                                      Text(localtionsList[i].type ?? 'No Type'))
+                            ],
+                          ),
+                        ),
                         FlatButton(
                           child: const Text('Close BottomSheet'),
                           onPressed: () => Navigator.pop(context),

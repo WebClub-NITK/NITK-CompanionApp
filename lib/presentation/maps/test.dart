@@ -6,7 +6,7 @@ import 'package:utilapp/domain/maps/usecase/get_list_of_locations.dart';
 import 'package:utilapp/injection_container.dart';
 import 'package:utilapp/presentation/maps/bloc/list_locations_bloc.dart';
 import 'package:utilapp/presentation/maps/college_map_page.dart';
-
+import 'package:utilapp/application/usecase/location_type_mapping.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TestPage extends StatefulWidget {
@@ -28,7 +28,7 @@ class _TestPageState extends State<TestPage> {
       ));
     },
   );
-
+  LocationTypeMapping locationTypeMapping = new LocationTypeMapping();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -40,6 +40,9 @@ class _TestPageState extends State<TestPage> {
             initial: (_) {},
             loadListOfCollegeLocations: (loaded) {
               for (int i = 0; i < loaded.bookingList.length; i++) {
+                loaded.bookingList[i].type =
+                    locationTypeMapping.getLocationTypeFromAbbreviation(
+                        loaded.bookingList[i].type);
                 print("PRINTING TYPE ${loaded.bookingList[i].type}");
                 loaded.bookingList[i].latLng = LatLng(
                     double.parse(loaded.bookingList[i].latitude),
