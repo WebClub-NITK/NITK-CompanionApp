@@ -130,10 +130,14 @@ class SignInForm extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 40),
                           child: ElevatedButton(
                             onPressed: () {
-                              context.bloc<SignInFormBloc>().add(
-                                    const SignInFormEvent
-                                        .signInWithEmailAndPasswordPressed(),
-                                  );
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage()));
+                              // context.bloc<SignInFormBloc>().add(
+                              //       const SignInFormEvent
+                              //           .signInWithEmailAndPasswordPressed(),
+                              //     );
                             },
                             style: ButtonStyle(
                               backgroundColor:
