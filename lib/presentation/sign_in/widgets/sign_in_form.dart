@@ -172,7 +172,7 @@ class SignInForm extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: OutlineButton(
+                          child: FlatButton(
                             onPressed: () {
                               context.bloc<SignInFormBloc>().add(
                                     const SignInFormEvent
@@ -189,7 +189,7 @@ class SignInForm extends StatelessWidget {
                                   width: 8,
                                 ),
                                 Text(
-                                  'continue as google guest',
+                                  'Continue with Google',
                                   style: TextStyle(fontWeight: FontWeight.w400),
                                 ),
                               ],
