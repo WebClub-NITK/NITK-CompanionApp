@@ -26,13 +26,14 @@ class CollegeLocationModel extends CollegeLocation {
             longitude: longitude,
             description: description,
             type: type);
-  factory CollegeLocationModel.fromJson(Map<String, dynamic> json) =>
-      CollegeLocationModel(
-        pk: json["pk"],
-        name: json["name"],
-        latitude: json["latitude"],
-        longitude: json["longitude"],
-        description: json["description"],
-        type: json["type"],
-      );
+  factory CollegeLocationModel.fromJson(Map<String, dynamic> json) {
+    return CollegeLocationModel(
+      pk: json["pk"],
+      name: json["name"],
+      latitude: json["latitude"],
+      longitude: json["longitude"],
+      description: json["description"],
+      type: json["location_type"],
+    );
+  }
 }

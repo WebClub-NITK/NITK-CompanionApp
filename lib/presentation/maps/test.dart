@@ -40,6 +40,7 @@ class _TestPageState extends State<TestPage> {
             initial: (_) {},
             loadListOfCollegeLocations: (loaded) {
               for (int i = 0; i < loaded.bookingList.length; i++) {
+                print("PRINTING TYPE ${loaded.bookingList[i].type}");
                 loaded.bookingList[i].latLng = LatLng(
                     double.parse(loaded.bookingList[i].latitude),
                     double.parse(loaded.bookingList[i].longitude));
