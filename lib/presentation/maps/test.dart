@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -19,13 +20,12 @@ class _TestPageState extends State<TestPage> {
     super.initState();
   }
 
-  final spinkit = SpinKitFadingCircle(
+  final spinkit = SpinKitCubeGrid(
     itemBuilder: (BuildContext context, int index) {
       return DecoratedBox(
-        decoration: BoxDecoration(
-          color: index.isEven ? Colors.red : Colors.green,
-        ),
-      );
+          decoration: BoxDecoration(
+        color: Color(0xFFfeca59),
+      ));
     },
   );
 

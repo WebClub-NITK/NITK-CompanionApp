@@ -5,8 +5,10 @@ import 'package:utilapp/presentation/maps/markers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:utilapp/presentation/maps/single_location_page.dart';
 import 'package:utilapp/presentation/maps/test.dart';
 import 'package:utilapp/domain/maps/entity/location.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MapsPage extends StatefulWidget {
   @override
@@ -88,42 +90,6 @@ class _MapsPageState extends State<MapsPage> {
   GoogleMapController mapController;
 
   LatLng _center = const LatLng(13.0110, 74.7943);
-  LatLng _ECELatLng = const LatLng(13.011159428377379, 74.79217109978454);
-  _handleTap(LatLng point) {
-    setState(() {
-      _markers.add(Marker(
-        onTap: () {
-          _scaffoldKey.currentState
-              .showBottomSheet<void>((BuildContext context) {
-            return Container(
-              height: 200,
-              color: Colors.amber,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const Text('BottomSheet'),
-                    FlatButton(
-                      child: const Text('Close BottomSheet'),
-                      onPressed: () => Navigator.pop(context),
-                    )
-                  ],
-                ),
-              ),
-            );
-          });
-        },
-        markerId: MarkerId(point.toString()),
-        position: point,
-        infoWindow: InfoWindow(
-          title: 'Helloo',
-        ),
-        icon:
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
-      ));
-    });
-  }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
@@ -132,9 +98,64 @@ class _MapsPageState extends State<MapsPage> {
         CameraPosition(zoom: 18, bearing: 30, target: _center);
     return MaterialApp(
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          child: FaIcon(
+            FontAwesomeIcons.list,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            _scaffoldKey.currentState
+                .showBottomSheet<void>((BuildContext context) {
+              return Container(
+                height: 400,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    FlatButton(
+                      child: const Text('Close BottomSheet'),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: widget.locationList.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SingleLocationPage(
+                                          widget.locationList[index])));
+                            },
+                            child: ListTile(
+                              title: Text(widget.locationList[index].name),
+                              subtitle:
+                                  Text(widget.locationList[index].description),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            });
+          },
+          backgroundColor: Color(0xFFfeca59),
+        ),
         key: _scaffoldKey,
         appBar: AppBar(
-          title: Text('Maps Sample App'),
+          leading: Center(
+              child: FaIcon(
+            FontAwesomeIcons.list,
+            color: Colors.black,
+          )),
+          title: Text(
+            'map',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Color(0xFFfeca59),
         ),
         body: GoogleMap(
             //onTap: _handleTap,
@@ -147,7 +168,7 @@ class _MapsPageState extends State<MapsPage> {
               mapController.animateCamera(CameraUpdate.newCameraPosition(
                   CameraPosition(target: _center, zoom: 18)));
             },
-            mapType: MapType.satellite,
+            //mapType: MapType.satellite,
             initialCameraPosition: initialLocation,
             cameraTargetBounds: new CameraTargetBounds(new LatLngBounds(
                 northeast: LatLng(13.015237558971684, 74.79886572433706),
