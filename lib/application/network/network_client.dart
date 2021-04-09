@@ -3,7 +3,7 @@ import 'package:utilapp/application/failure/app_failure.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkClient {
-  String domain = '777b5c553f35.ngrok.io';
+  String domain = 'daf2edcede40.ngrok.io';
   //String domain = '127.0.0.1:8000';
   Dio dio = new Dio();
   dynamic getRequest({String url, dynamic queryParameters}) async {

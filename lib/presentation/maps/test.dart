@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:utilapp/domain/maps/usecase/get_list_of_locations.dart';
 import 'package:utilapp/injection_container.dart';
 import 'package:utilapp/presentation/maps/bloc/list_locations_bloc.dart';
@@ -17,6 +18,16 @@ class _TestPageState extends State<TestPage> {
   void initState() {
     super.initState();
   }
+
+  final spinkit = SpinKitFadingCircle(
+    itemBuilder: (BuildContext context, int index) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          color: index.isEven ? Colors.red : Colors.green,
+        ),
+      );
+    },
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +79,10 @@ class _TestPageState extends State<TestPage> {
             body: (state is LoadListOfCollegeLocations)
                 ? (state.bookingList.length > 0)
                     ? MapsPage(state.bookingList)
-                    : Text('No Locations')
+                    : Center(child: Text('No Locations'))
                 : (state is Failure)
-                    ? Text('FAILURE')
-                    : CircularProgressIndicator(),
+                    ? Center(child: Text('FAILURE'))
+                    : Center(child: spinkit),
           );
         },
       ),

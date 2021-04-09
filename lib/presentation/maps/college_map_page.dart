@@ -61,13 +61,14 @@ class _MapsPageState extends State<MapsPage> {
             ),
             icon: bitmap,
           );
-          _markers.add(_marker);
+          setState(() {
+            _markers.add(_marker);
+            print(_markers);
+            print("ALL MARKERS INITIALIZED");
+          });
         });
       }
     }
-    setState(() {
-      print("ALL MARKERS INITIALIZED");
-    });
   }
 
   void initState() {
@@ -134,12 +135,6 @@ class _MapsPageState extends State<MapsPage> {
         key: _scaffoldKey,
         appBar: AppBar(
           title: Text('Maps Sample App'),
-          leading: InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TestPage()));
-              },
-              child: Text('Test')),
         ),
         body: GoogleMap(
             //onTap: _handleTap,
