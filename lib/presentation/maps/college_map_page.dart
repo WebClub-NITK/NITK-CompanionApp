@@ -95,7 +95,7 @@ class _MapsPageState extends State<MapsPage> {
                             ],
                           ),
                         ),
-                        FlatButton(
+                        TextButton(
                           child: const Text('Close BottomSheet'),
                           onPressed: () => Navigator.pop(context),
                         )
@@ -161,7 +161,7 @@ class _MapsPageState extends State<MapsPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    FlatButton(
+                    TextButton(
                       child: const Text('Close BottomSheet'),
                       onPressed: () => Navigator.pop(context),
                     ),

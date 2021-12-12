@@ -35,7 +35,9 @@ class SignInForm extends StatelessWidget {
       },
       builder: (context, state) {
         return Form(
-          autovalidate: state.showErrorMessages,
+          autovalidateMode: state.showErrorMessages
+              ? AutovalidateMode.always
+              : AutovalidateMode.disabled,
           child: Column(
             children: [
               Expanded(
@@ -65,7 +67,8 @@ class SignInForm extends StatelessWidget {
                         TextFormField(
                           decoration: const InputDecoration(
                               fillColor: LightColors.darkGrey,
-                              hasFloatingPlaceholder: false,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
                               filled: true,
                               labelStyle: TextStyle(color: Colors.white),
                               contentPadding: EdgeInsets.symmetric(
@@ -75,11 +78,11 @@ class SignInForm extends StatelessWidget {
                           style: TextStyle(color: Colors.white),
                           autocorrect: false,
                           onChanged: (value) =>
-                              context.bloc<SignInFormBloc>().add(
+                              context.watch<SignInFormBloc>().add(
                                     SignInFormEvent.emailChanged(value),
                                   ),
                           validator: (_) => context
-                              .bloc<SignInFormBloc>()
+                              .watch<SignInFormBloc>()
                               .state
                               .emailAddress
                               .value
@@ -97,7 +100,8 @@ class SignInForm extends StatelessWidget {
                         TextFormField(
                           decoration: const InputDecoration(
                               fillColor: LightColors.darkGrey,
-                              hasFloatingPlaceholder: false,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
                               labelStyle: TextStyle(color: Colors.white),
                               filled: true,
                               contentPadding: EdgeInsets.symmetric(
@@ -108,11 +112,11 @@ class SignInForm extends StatelessWidget {
                           autocorrect: false,
                           obscureText: true,
                           onChanged: (value) =>
-                              context.bloc<SignInFormBloc>().add(
+                              context.watch<SignInFormBloc>().add(
                                     SignInFormEvent.passwordChanged(value),
                                   ),
                           validator: (_) => context
-                              .bloc<SignInFormBloc>()
+                              .watch<SignInFormBloc>()
                               .state
                               .password
                               .value
@@ -172,14 +176,21 @@ class SignInForm extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: FlatButton(
+                          child: TextButton(
                             onPressed: () {
-                              context.bloc<SignInFormBloc>().add(
+                              context.read<SignInFormBloc>().add(
                                     const SignInFormEvent
                                         .signInWithGooglePressed(),
                                   );
                             },
-                            splashColor: Theme.of(context).accentColor,
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
@@ -193,9 +204,6 @@ class SignInForm extends StatelessWidget {
                                   style: TextStyle(fontWeight: FontWeight.w400),
                                 ),
                               ],
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                         ),

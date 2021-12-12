@@ -30,5 +30,6 @@ class LocationTypeMapping {
         return "Miscellaneous";
         break;
     }
+    return "";
   }
 }
