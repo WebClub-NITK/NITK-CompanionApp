@@ -150,14 +150,14 @@ class HomeState extends State<HomePage> {
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         selectedItemColor: Theme.of(context).primaryColor,
         onTap: _onTabTapped,
         currentIndex: _bottom_Navigation_index,
         items: <BottomNavigationBarItem>[
           new BottomNavigationBarItem(
               icon: Image.asset("feed.png"),
-              title: Text(""),
+              label: "",
               activeIcon: CircleAvatar(
                 child: Image.asset(
                   "feed.png",
@@ -167,7 +167,7 @@ class HomeState extends State<HomePage> {
               )),
           new BottomNavigationBarItem(
               icon: Image.asset("news.png"),
-              title: Text(""),
+              label: "",
               activeIcon: CircleAvatar(
                 child: Image.asset(
                   "news.png",
@@ -177,7 +177,7 @@ class HomeState extends State<HomePage> {
               )),
           new BottomNavigationBarItem(
               icon: Image.asset("search.png"),
-              title: Text(""),
+              label: "",
               activeIcon: CircleAvatar(
                 child: Image.asset(
                   "search.png",
@@ -187,7 +187,7 @@ class HomeState extends State<HomePage> {
               )),
           new BottomNavigationBarItem(
               icon: Image.asset("map.png"),
-              title: Text(""),
+              label: "",
               activeIcon: CircleAvatar(
                 child: Image.asset(
                   "map.png",

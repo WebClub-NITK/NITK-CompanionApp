@@ -11,7 +11,10 @@ class AppWidget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(
         primaryColor: LightColors.yellow,
-        accentColor: LightColors.darkGrey,
+        // accentColor: LightColors.darkGrey,
+        colorScheme: ThemeData.light()
+            .colorScheme
+            .copyWith(secondary: LightColors.darkGrey),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
